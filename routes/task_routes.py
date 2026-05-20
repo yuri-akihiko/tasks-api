@@ -31,9 +31,9 @@ async def create_task(task: TaskCreate, session: Session = Depends(get_session))
     return await TaskController.create_task(session, task)
 
 @router.delete("/{id}")
-async def delete_task(id: int):
-    return await TaskController.delete_task(id)
+async def delete_task(id: int, session: Session = Depends(get_session)):
+    return await TaskController.delete_task(session, id)
 
 @router.put("/{id}")
-async def update_task(id: int, task: TaskUpdate):
-    return await TaskController.update_task(id, task)
+async def update_task( task: TaskUpdate, id: int, session: Session = Depends(get_session)):
+    return await TaskController.update_task(session, id, task)

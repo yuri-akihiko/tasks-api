@@ -45,37 +45,36 @@ class TaskServices:
     # use essa doc como exemplo para fazer a criação no banco(https://fastapi.tiangolo.com/tutorial/sql-databases/#create-a-hero) 
     @staticmethod
     async def create_task(session: Session, task: TaskCreate)-> Task:
-        session.add(task)
+        new_task = Task(**task.model_dump(mode="json")) 
+        session.add(new_task)
         session.commit()
-        session.refresh(task)
-        return task
+        session.refresh(new_task)
+        return new_task
 
     # use essa doc como exemplo para fazer a criação no banco(https://fastapi.tiangolo.com/tutorial/sql-databases/#delete-a-hero) 
     @staticmethod
-    async def delete_task(id: int):
-        tasks_data = await TaskServices.ler_arquivo_json()
-        task_exists = any(item["id"] == id for item in tasks_data["tasks"])
-        if not task_exists:
+    async def delete_task(session: Session, id: int):
+        task = session.get(task,_id)
+        if not task:
             raise HTTPException(status_code=404, detail="Task not found")
-        tasks_data["tasks"] = [item for item in tasks_data["tasks"] if item["id"] != id]
-        with TASKS_FILE.open("w", encoding="utf-8") as f:
-            json.dump(tasks_data, f, ensure_ascii=False, indent=4)
-        return {"message": "Task deletada com sucesso"}
+        session.delete(task)
+        session.commit()
+        return {"ok": True}
 
     #use essa doc como exemplo para fazer a criação no banco(https://fastapi.tiangolo.com/tutorial/sql-databases/#update-a-hero-with-heroupdate)
     @staticmethod
-    async def update_task(id: int, task: TaskUpdate):
-        tasks_data = await TaskServices.ler_arquivo_json()
-        tasks_list = tasks_data["tasks"]
-        index = next((i for i, item in enumerate(tasks_list) if item["id"] == id), None)
-        if index is None:
+    async def update_task(session: Session, Task: TaskUpdate )-> Task:
+        task_db = session.get(Task, task_db)
+        if not task_db:
             raise HTTPException(status_code=404, detail="Task not found")
-        updated = task.model_dump()
-        updated["id"] = id
-        tasks_list[index] = updated
-        with TASKS_FILE.open("w", encoding="utf-8") as f:
-            json.dump(tasks_data, f, ensure_ascii=False, indent=4)
-        return updated
+        task_data = Task.model_dump(exclude_unset=True)
+        task_db.sqlmodel_update(task_data)
+        session.add(task_db)
+        session.commit()
+        session.refresh(task_db)
+        return task_db
+        
+        
     
     @staticmethod
     async def ler_arquivo_json():

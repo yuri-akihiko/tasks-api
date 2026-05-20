@@ -1,6 +1,6 @@
-fastapi[standard] 
+fastapi[standard]
 pydantic
 pwdlib[argon2]
 python-dotenv
 sqlmodel
-psycodepg[binary]
+psycopg[binary]

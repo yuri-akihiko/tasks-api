@@ -68,14 +68,13 @@ class TaskServices:
         if not task_db:
             raise HTTPException(status_code=404, detail="Task not found")
         task_data = Task.model_dump(exclude_unset=True)
+        if "status" in task_data and task_data ["status"] is not None:
+            task_data["status"] = task_data["status"].lower()
         task_db.sqlmodel_update(task_data)
         session.add(task_db)
         session.commit()
         session.refresh(task_db)
         return task_db
-        
-        
-    
     @staticmethod
     async def ler_arquivo_json():
         with TASKS_FILE.open(encoding="utf-8") as f:

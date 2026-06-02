@@ -20,7 +20,7 @@ class TaskServices:
                         status: str | None = None,
                         skip: int = 0,
                         limit: int | None = None):
-        declaracao = select(Task)
+        declaracao = select(Task).order_by(Task.id)
         if owner is not None:
             declaracao = declaracao.where(Task.owner.contains(owner))
         if status is not None:

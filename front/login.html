@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login • Todo</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body class="page">
+    <main class="auth">
+      <section class="card">
+        <header class="card__header">
+          <h1>Entrar</h1>
+          <p>Use seu usuário e senha do sistema.</p>
+        </header>
+
+        <form id="loginForm" class="form" autocomplete="on">
+          <label class="field">
+            <span>Usuário</span>
+            <input id="username" name="username" type="text" required autofocus />
+          </label>
+
+          <label class="field">
+            <span>Senha</span>
+            <input id="password" name="password" type="password" required />
+          </label>
+
+          <button class="btn btn--primary" type="submit">Entrar</button>
+          <p id="error" class="error" hidden></p>
+        </form>
+
+        <footer class="card__footer">
+          <small class="muted">Projeto INF8 • Painel de tarefas</small>
+        </footer>
+      </section>
+    </main>
+
+    <script type="module" src="./assets/login.js"></script>
+  </body>
+</html>

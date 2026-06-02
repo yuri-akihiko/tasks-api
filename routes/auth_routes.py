@@ -4,7 +4,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import Session
 from database import get_session
 from controllers.auth_controller import AuthController
-from schemas.auth_schema import TokenPair, RefreshRequest
+from schemas.auth_schema import TokenPair, RefreshRequest, User
+from security import get_current_active_user
 
 router = APIRouter(prefix="/auth", tags=["Autenticação"])
 
@@ -21,5 +22,9 @@ async def refresh(body: RefreshRequest):
     """Renova o access_token silenciosamente usando o refresh_token."""
     return AuthController.refresh(body.refresh_token)
 
-
+@router.get("/me", response_model=User)
+async def read_users_me(
+    current_user: User = Depends(get_current_active_user),
+):
+    return current_user
 

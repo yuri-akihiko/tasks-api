@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel • Todo</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body class="page">
+    <header class="topbar">
+      <div class="topbar__left">
+        <div class="logo">Todo</div>
+        <div class="topbar__meta">
+          <div class="topbar__title">Painel Admin</div>
+          <div class="topbar__subtitle muted">Kanban simples (TODO • DOING • DONE)</div>
+        </div>
+      </div>
+      <div class="topbar__right">
+        <div class="user">
+          <span class="muted">Logado como</span>
+          <strong id="me">...</strong>
+        </div>
+        <button id="logoutBtn" class="btn btn--ghost" type="button">Sair</button>
+      </div>
+    </header>
+
+    <main class="board">
+      <section class="column" data-status="pendente">
+        <header class="column__header">
+          <h2>TODO</h2>
+          <span class="pill" id="count-pendente">0</span>
+        </header>
+        <div class="column__body" id="col-pendente"></div>
+      </section>
+
+      <section class="column" data-status="fazendo">
+        <header class="column__header">
+          <h2>DOING</h2>
+          <span class="pill" id="count-fazendo">0</span>
+        </header>
+        <div class="column__body" id="col-fazendo"></div>
+      </section>
+
+      <section class="column" data-status="concluido">
+        <header class="column__header">
+          <h2>DONE</h2>
+          <span class="pill" id="count-concluido">0</span>
+        </header>
+        <div class="column__body" id="col-concluido"></div>
+      </section>
+    </main>
+
+    <button id="newTaskFab" class="fab" type="button" title="Criar nova task">+</button>
+
+    <dialog id="taskDialog" class="dialog">
+      <form method="dialog" class="dialog__card" id="taskForm">
+        <header class="dialog__header">
+          <h3 id="dialogTitle">Nova Task</h3>
+          <button class="iconbtn" id="closeTaskDialog" aria-label="Fechar" type="button">×</button>
+        </header>
+
+        <div class="dialog__body">
+          <label class="field">
+            <span>Título</span>
+            <input id="taskTitle" name="title" type="text" required />
+          </label>
+
+          <label class="field">
+            <span>Descrição</span>
+            <textarea id="taskDescription" name="description" rows="3" required></textarea>
+          </label>
+
+          <label class="field">
+            <span>Status</span>
+            <select id="taskStatus" name="status" required>
+              <option value="pendente">pendente</option>
+              <option value="fazendo">fazendo</option>
+              <option value="concluido">concluido</option>
+            </select>
+          </label>
+        </div>
+
+        <footer class="dialog__footer">
+          <button class="btn btn--ghost" id="cancelTaskDialog" type="button">Cancelar</button>
+          <button class="btn btn--primary" value="default" type="submit">Salvar</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <script type="module" src="./assets/admin.js"></script>
+  </body>
+</html>
